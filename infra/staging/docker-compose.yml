@@ -42,7 +42,8 @@ services:
 
   frontend:
     build:
-      context: ./frontend
+      context: ../..
+      dockerfile: infra/staging/frontend/Dockerfile
     restart: unless-stopped
     depends_on:
       backend:
