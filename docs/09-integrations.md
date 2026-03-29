@@ -79,7 +79,10 @@ Document every external system that matters to development, deploy, or e2e valid
 
 | Integration | Purpose | Stage first needed | Status | Notes |
 | --- | --- | --- | --- | --- |
-| `<integration>` | `<purpose>` | `<setup/business_analysis/system_analysis/implementation/deploy/e2e>` | `<status>` | `<notes>` |
+| `Telegram WebApp / Bot API` | Identity context, customer notifications, barista reminders | `system_analysis` | Required | Prod flow depends on Telegram; test env may use `DISABLE_TG_AUTH=true` |
+| `Figma Make Customer` | UI reference source for customer surface | `system_analysis` | Read-only source confirmed | File key `8AVVTDwJgQ2vFG8ZbQ6RV0`, used for screen inventory and UI traceability |
+| `Figma Make Admin` | UI reference source for backoffice surface | `system_analysis` | Read-only source confirmed | File key `pRTdx3oouQIEwmXDTtM0zT`, used for screen inventory and UI traceability |
+| `VPS` | Test/prod deployment target with containers and CI/CD automation | `infrastructure` | Access configured locally | Raw access variables live in local `.env` and are not committed |
 
 ## Integration Status
 

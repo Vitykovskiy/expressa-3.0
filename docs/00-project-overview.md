@@ -34,8 +34,8 @@ If you need to diagnose execution friction, consult `docs/12-observability.md` f
 - Session mode: `execution`
 - Active initiative: `#1`
 - Active execution issues: `none`
-- Current owner role: `system-analyst`
-- Delivery status: `Ready`
+- Current owner role: `devops`
+- Delivery status: `infrastructure_ready`
 
 ## Canonical Artifact Map
 
@@ -85,8 +85,9 @@ If you need to diagnose execution friction, consult `docs/12-observability.md` f
 - Integration metadata: `docs/09-integrations.md`
 - Linked GitHub Project: `https://github.com/users/Vitykovskiy/projects/24`
 - Seeded backlog: `#1` initiative, `#2` initial `business_analysis`, `#3` initial `system_analysis`
+- Downstream planning chain: `#4` infrastructure, `#5` customer block, `#6` backoffice block, `#7-#13` implementation/e2e/deploy issues
 
 ## Notes
 
 Keep this file concise. It should orient a new session without duplicating the detailed stage artifacts.
-The next eligible issue after `business_analysis` completion is `#3` (`system_analysis`, `Ready`).
+The next eligible issue after `system_analysis` completion is `#4` (`infrastructure`, `Ready`).
