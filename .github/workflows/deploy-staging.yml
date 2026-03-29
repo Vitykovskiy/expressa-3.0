@@ -1,0 +1,63 @@
+name: Deploy Staging
+
+on:
+  workflow_run:
+    workflows: ["Stage 0 CI"]
+    types:
+      - completed
+  workflow_dispatch:
+
+jobs:
+  deploy-staging:
+    name: deploy-staging
+    runs-on: ubuntu-latest
+    if: |
+      github.event_name == 'workflow_dispatch' ||
+      (
+        github.event.workflow_run.conclusion == 'success' &&
+        github.event.workflow_run.event == 'push' &&
+        github.event.workflow_run.head_branch == 'main'
+      )
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Deploy to VPS
+        uses: appleboy/ssh-action@v1.2.0
+        with:
+          host: ${{ secrets.VPS_HOST }}
+          username: ${{ secrets.VPS_USER }}
+          port: ${{ secrets.VPS_PORT }}
+          key: ${{ secrets.VPS_SSH_PRIVATE_KEY }}
+          script_stop: true
+          script: |
+            export DEPLOY_PATH=/opt/expressa-3.0
+            export REPO_URL=https://github.com/${{ github.repository }}.git
+            export BRANCH=main
+            mkdir -p "$DEPLOY_PATH"
+            if [ ! -d "$DEPLOY_PATH/.git" ]; then
+              rm -rf "$DEPLOY_PATH"
+              git clone --branch "$BRANCH" "$REPO_URL" "$DEPLOY_PATH"
+            fi
+            cd "$DEPLOY_PATH"
+            git fetch origin "$BRANCH"
+            git checkout "$BRANCH"
+            git pull --ff-only origin "$BRANCH"
+            cat > infra/staging/.env.runtime <<'EOF'
+            APP_ENV=staging
+            FRONTEND_PORT=${{ secrets.STAGING_FRONTEND_PORT }}
+            BACKEND_PORT=${{ secrets.STAGING_BACKEND_PORT }}
+            POSTGRES_DB=${{ secrets.STAGING_POSTGRES_DB }}
+            POSTGRES_USER=${{ secrets.STAGING_POSTGRES_USER }}
+            POSTGRES_PASSWORD=${{ secrets.STAGING_POSTGRES_PASSWORD }}
+            SESSION_SECRET=${{ secrets.STAGING_SESSION_SECRET }}
+            DISABLE_TG_AUTH=${{ secrets.STAGING_DISABLE_TG_AUTH }}
+            ADMIN_TELEGRAM_ID=${{ secrets.STAGING_ADMIN_TELEGRAM_ID }}
+            CUSTOMER_BOT_TOKEN=${{ secrets.STAGING_CUSTOMER_BOT_TOKEN }}
+            BACKOFFICE_BOT_TOKEN=${{ secrets.STAGING_BACKOFFICE_BOT_TOKEN }}
+            EOF
+            bash scripts/infra/deploy-staging.sh
+            curl -fsS "http://127.0.0.1:${{ secrets.STAGING_FRONTEND_PORT }}/health" >/dev/null
+            curl -fsS "http://127.0.0.1:${{ secrets.STAGING_FRONTEND_PORT }}/api/health" >/dev/null
+
+      - name: Verify public target URL
+        run: bash scripts/infra/e2e.sh "${{ secrets.TARGET_URL }}"

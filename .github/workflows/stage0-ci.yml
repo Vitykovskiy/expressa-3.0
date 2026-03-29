@@ -1,0 +1,51 @@
+name: Stage 0 CI
+
+on:
+  pull_request:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+jobs:
+  stage0-build-smoke:
+    name: stage0-build-smoke
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Prepare CI runtime env
+        run: |
+          cat > infra/staging/.env.ci <<'EOF'
+          APP_ENV=ci
+          FRONTEND_PORT=18080
+          BACKEND_PORT=18081
+          POSTGRES_DB=expressa_stage0
+          POSTGRES_USER=expressa
+          POSTGRES_PASSWORD=expressa
+          SESSION_SECRET=ci-session-secret
+          DISABLE_TG_AUTH=true
+          ADMIN_TELEGRAM_ID=0
+          CUSTOMER_BOT_TOKEN=ci-placeholder
+          BACKOFFICE_BOT_TOKEN=ci-placeholder
+          EOF
+
+      - name: Build containers
+        run: docker compose -f infra/staging/docker-compose.yml --env-file infra/staging/.env.ci build
+
+      - name: Start stack
+        run: docker compose -f infra/staging/docker-compose.yml --env-file infra/staging/.env.ci up -d
+
+      - name: Run smoke checks
+        run: bash scripts/infra/smoke.sh http://127.0.0.1:18080 http://127.0.0.1:18081
+
+      - name: Run Stage 0 e2e checks
+        run: bash scripts/infra/e2e.sh http://127.0.0.1:18080
+
+      - name: Dump compose status on failure
+        if: failure()
+        run: docker compose -f infra/staging/docker-compose.yml --env-file infra/staging/.env.ci ps
+
+      - name: Tear down stack
+        if: always()
+        run: docker compose -f infra/staging/docker-compose.yml --env-file infra/staging/.env.ci down -v

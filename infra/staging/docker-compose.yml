@@ -1,0 +1,59 @@
+name: expressa-stage0
+
+services:
+  postgres:
+    image: postgres:16-alpine
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB}
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER} -d ${POSTGRES_DB}"]
+      interval: 10s
+      timeout: 5s
+      retries: 6
+
+  backend:
+    build:
+      context: ./backend
+    restart: unless-stopped
+    environment:
+      APP_ENV: ${APP_ENV}
+      PORT: 8081
+      DISABLE_TG_AUTH: ${DISABLE_TG_AUTH}
+      SESSION_SECRET: ${SESSION_SECRET}
+      ADMIN_TELEGRAM_ID: ${ADMIN_TELEGRAM_ID}
+      CUSTOMER_BOT_TOKEN: ${CUSTOMER_BOT_TOKEN}
+      BACKOFFICE_BOT_TOKEN: ${BACKOFFICE_BOT_TOKEN}
+      DATABASE_URL: postgresql://${POSTGRES_USER}:${POSTGRES_PASSWORD}@postgres:5432/${POSTGRES_DB}
+    depends_on:
+      postgres:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD-SHELL", "wget -qO- http://127.0.0.1:8081/health >/dev/null"]
+      interval: 10s
+      timeout: 5s
+      retries: 6
+    ports:
+      - "${BACKEND_PORT:-8081}:8081"
+
+  frontend:
+    build:
+      context: ./frontend
+    restart: unless-stopped
+    depends_on:
+      backend:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD-SHELL", "wget -qO- http://127.0.0.1/health >/dev/null"]
+      interval: 10s
+      timeout: 5s
+      retries: 6
+    ports:
+      - "${FRONTEND_PORT:-8080}:80"
+
+volumes:
+  postgres-data:

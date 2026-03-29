@@ -2,6 +2,8 @@
 .env
 .env.local
 .env.*.local
+infra/staging/.env.runtime
+infra/staging/.env.ci
 
 # OS
 .DS_Store
