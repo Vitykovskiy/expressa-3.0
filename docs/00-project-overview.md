@@ -30,12 +30,12 @@ If you need to diagnose execution friction, consult `docs/12-observability.md` f
 ## Current Status
 
 - Workflow state file: `.ai-dev-template.workflow-state.json`
-- Current stage: `<setup|issue_driven>`
-- Session mode: `<dialogue|execution>`
-- Active initiative: `<fill-initiative>`
-- Active execution issues: `<issue numbers currently in progress or none>`
-- Current owner role: `<fill-role>`
-- Delivery status: `<fill-status>`
+- Current stage: `issue_driven`
+- Session mode: `execution`
+- Active initiative: `#1`
+- Active execution issues: `#2`
+- Current owner role: `business-analyst`
+- Delivery status: `Ready`
 
 ## Canonical Artifact Map
 
@@ -83,6 +83,8 @@ If you need to diagnose execution friction, consult `docs/12-observability.md` f
 - Initiative and task tracking: GitHub Issues
 - Delivery status: GitHub Project
 - Integration metadata: `docs/09-integrations.md`
+- Linked GitHub Project: `https://github.com/users/Vitykovskiy/projects/24`
+- Seeded backlog: `#1` initiative, `#2` initial `business_analysis`
 
 ## Notes
 

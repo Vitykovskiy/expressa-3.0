@@ -2,28 +2,28 @@
 
 ## GitHub Project
 
-- URL: `<paste GitHub Project URL here>`
+- URL: `https://github.com/users/Vitykovskiy/projects/24`
 - Board type: `Kanban`
-- Required statuses present: `yes/no`
+- Required statuses present: `yes`
 - Required fields present: `Status`, `Task Type`, `Owner Contour`, `Priority`
-- Project item creation verified: `yes/no`
-- Setup validation status: `Unknown`
-- Notes: If `project_tracking = github_project`, prefer a repository-linked project for normal setup. If GitHub-side bootstrap is temporarily unavailable, record deferred reconciliation and continue local bootstrap instead of blocking the stage.
+- Project item creation verified: `yes`
+- Setup validation status: `complete`
+- Notes: Project 24 is linked to `Vitykovskiy/expressa-3.0`. `Status` options were updated to `Inbox`, `Ready`, `In Progress`, `Blocked`, `Waiting for Testing`, `Testing`, `Waiting for Fix`, `In Review`, and `Done`.
 
 ## GitHub Issues
 
-- Initiative issue creation verified: `yes/no`
-- Initial seeded `business_analysis` issue verified: `yes/no`
-- Operational issue templates verified: `yes/no`
-- Required task metadata captured by forms: `yes/no`
-- Ready -> In Progress claim/start flow verified: `yes/no`
-- Labels prepared for workflow use: `yes/no`
-- Notes: Record the identifiers or URLs needed to prove that workflow-required issue records exist.
+- Initiative issue creation verified: `yes`
+- Initial seeded `business_analysis` issue verified: `yes`
+- Operational issue templates verified: `yes`
+- Required task metadata captured by forms: `yes`
+- Ready -> In Progress claim/start flow verified: `yes`
+- Labels prepared for workflow use: `yes`
+- Notes: Seeded issues are `#1` (`initiative`, `Inbox`) and `#2` (`business_analysis`, `Ready`). Workflow labels created: `priority: high`, `priority: medium`, `priority: low`.
 
 ## Effective Workflow Policy
 
-- Effective `.ai-dev-template.config.json` committed and pushed: `yes/no`
-- Notes: If setup used a modified configuration file, record the commit or push evidence here.
+- Effective `.ai-dev-template.config.json` committed and pushed: `yes`
+- Notes: Repo-local `.ai-dev-template.config.json` is authoritative for this repository. `pull_requests.enabled = false`, so delivery uses commit + direct push.
 
 ## Bootstrap Access Variables
 
@@ -31,12 +31,12 @@ These variables describe the raw VPS access that DevOps receives at Stage 0. The
 
 | Variable | Required | Purpose | Stage first needed | Status |
 | --- | --- | --- | --- | --- |
-| `VPS_HOST` | yes | Raw VPS host or IP for Stage 0 bootstrap | `setup` | Unknown |
-| `VPS_USER` | yes | Raw VPS login user for Stage 0 bootstrap | `setup` | Unknown |
+| `VPS_HOST` | yes | Raw VPS host or IP for Stage 0 bootstrap | `setup` | configured locally in `.env` |
+| `VPS_USER` | yes | Raw VPS login user for Stage 0 bootstrap | `setup` | configured locally in `.env` |
 | `VPS_PORT` | no | SSH port for Stage 0 bootstrap | `setup` | 22 |
-| `VPS_PASSWORD` | one of | Password auth for Stage 0 bootstrap | `setup` | Unknown |
-| `VPS_SSH_PRIVATE_KEY_PATH` | one of | Local path to SSH private key for Stage 0 bootstrap | `setup` | Unknown |
-| `VPS_SSH_PRIVATE_KEY` | one of | Secret-backed SSH key material for Stage 0 bootstrap | `setup` | Unknown |
+| `VPS_PASSWORD` | one of | Password auth for Stage 0 bootstrap | `setup` | configured locally in `.env` |
+| `VPS_SSH_PRIVATE_KEY_PATH` | one of | Local path to SSH private key for Stage 0 bootstrap | `setup` | empty in `.env` |
+| `VPS_SSH_PRIVATE_KEY` | one of | Secret-backed SSH key material for Stage 0 bootstrap | `setup` | empty in `.env` |
 
 ## Published Runtime And Validation Contract
 
@@ -83,8 +83,8 @@ Document every external system that matters to development, deploy, or e2e valid
 
 ## Integration Status
 
-- GitHub repository access: `Unknown`
-- GitHub Project access: `Unknown`
+- GitHub repository access: `yes`
+- GitHub Project access: `yes`
 - Deployment environment access: `Unknown`
 - E2E environment readiness: `Unknown`
 
