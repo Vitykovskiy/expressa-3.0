@@ -1,0 +1,48 @@
+name: PR Body Check
+
+on:
+  pull_request:
+    types: [opened, edited, synchronize, reopened]
+
+jobs:
+  pr-body-check:
+    name: pr-body-check
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Validate PR body against template
+        run: |
+          TEMPLATE=".github/PULL_REQUEST_TEMPLATE.md"
+
+          if [ ! -f "$TEMPLATE" ]; then
+            echo "No PR template found, skipping check."
+            exit 0
+          fi
+
+          PR_BODY=$(jq -r '.pull_request.body // ""' "$GITHUB_EVENT_PATH")
+
+          if [ -z "$PR_BODY" ]; then
+            echo "PR body is empty. Fill in all required sections from the template."
+            exit 1
+          fi
+
+          HEADINGS=$(grep -E '^#+ ' "$TEMPLATE" | sed 's/^#\+ //')
+
+          MISSING=()
+          while IFS= read -r heading; do
+            [ -z "$heading" ] && continue
+            if ! echo "$PR_BODY" | grep -qF "$heading"; then
+              MISSING+=("$heading")
+            fi
+          done <<< "$HEADINGS"
+
+          if [ "${#MISSING[@]}" -gt 0 ]; then
+            echo "PR body is missing required sections:"
+            for section in "${MISSING[@]}"; do
+              echo "  - $section"
+            done
+            exit 1
+          fi
+
+          echo "All required sections present."

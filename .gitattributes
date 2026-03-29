@@ -1,0 +1,14 @@
+* text=auto
+
+# Keep bash-sensitive files LF across all platforms.
+*.sh text eol=lf
+Dockerfile text eol=lf
+*.yml text eol=lf
+*.yaml text eol=lf
+*.md text eol=lf
+*.env.example text eol=lf
+
+# Windows command scripts can remain CRLF if added later.
+*.bat text eol=crlf
+*.cmd text eol=crlf
+*.ps1 text eol=crlf

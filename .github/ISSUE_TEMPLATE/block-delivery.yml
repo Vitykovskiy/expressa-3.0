@@ -1,0 +1,83 @@
+name: Block Delivery
+description: Create the parent issue for one integrated deliverable.
+title: "[Block Delivery] "
+labels:
+  - "task_type: block_delivery"
+body:
+  - type: markdown
+    attributes:
+      value: |
+        This template defines one integrated block-level deliverable.
+        The `task_type` is fixed by this template as `block_delivery`.
+  - type: dropdown
+    id: owner_contour
+    attributes:
+      label: owner_contour
+      description: Choose the contour that owns block orchestration for this deliverable.
+      options:
+        - system-analyst
+        - frontend
+        - backend
+        - devops
+        - qa-e2e
+    validations:
+      required: true
+  - type: input
+    id: parent_initiative
+    attributes:
+      label: parent_initiative
+      placeholder: "#123"
+    validations:
+      required: true
+  - type: textarea
+    id: integrated_goal
+    attributes:
+      label: Integrated goal
+      description: What integrated outcome does this block own?
+      placeholder: Describe the block-level deliverable and validation boundary.
+    validations:
+      required: true
+  - type: textarea
+    id: canonical_inputs
+    attributes:
+      label: canonical_inputs
+      placeholder: system_analysis issue, docs/analysis/*, contour-task-matrix row
+    validations:
+      required: true
+  - type: textarea
+    id: depends_on
+    attributes:
+      label: depends_on
+      placeholder: "#124"
+    validations:
+      required: true
+  - type: textarea
+    id: definition_of_ready
+    attributes:
+      label: definition_of_ready
+      placeholder: Relevant system_analysis task is done; integrated boundary is explicit; child implementation tasks exist.
+    validations:
+      required: true
+  - type: textarea
+    id: definition_of_done
+    attributes:
+      label: definition_of_done
+      placeholder: Child implementation tasks are done; integrated validation passes; block status can move to Done.
+    validations:
+      required: true
+  - type: dropdown
+    id: project_status
+    attributes:
+      label: project_status
+      options:
+        - Inbox
+        - Ready
+        - In Progress
+        - Blocked
+        - Waiting for Testing
+        - Testing
+        - Waiting for Fix
+        - In Review
+        - Done
+    validations:
+      required: true

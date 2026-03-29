@@ -1,0 +1,85 @@
+name: E2E Validation
+description: Create the integrated validation task for a block_delivery result or deployed release slice.
+title: "[E2E] "
+labels:
+  - "task_type: e2e"
+body:
+  - type: markdown
+    attributes:
+      value: |
+        This template creates the integrated validation task.
+        The `task_type` is fixed by this template as `e2e`.
+  - type: dropdown
+    id: owner_contour
+    attributes:
+      label: owner_contour
+      options:
+        - qa-e2e
+    validations:
+      required: true
+  - type: input
+    id: parent_initiative
+    attributes:
+      label: parent_initiative
+      placeholder: "#123"
+    validations:
+      required: true
+  - type: input
+    id: parent_block_task
+    attributes:
+      label: parent_block_task
+      placeholder: "#456"
+    validations:
+      required: true
+  - type: textarea
+    id: canonical_inputs
+    attributes:
+      label: canonical_inputs
+      placeholder: user scenarios, acceptance criteria, deployment evidence, linked block_delivery issue
+    validations:
+      required: true
+  - type: textarea
+    id: depends_on
+    attributes:
+      label: depends_on
+      placeholder: "#456"
+    validations:
+      required: true
+  - type: textarea
+    id: validation_scope
+    attributes:
+      label: Validation scope
+      description: Which integrated user scenarios or acceptance expectations must be validated?
+      placeholder: Describe the target flow, environment, and acceptance boundary.
+    validations:
+      required: true
+  - type: textarea
+    id: definition_of_ready
+    attributes:
+      label: definition_of_ready
+      placeholder: Block result is in Waiting for Testing or deployment is ready; scenarios and acceptance criteria are current.
+    validations:
+      required: true
+  - type: textarea
+    id: definition_of_done
+    attributes:
+      label: definition_of_done
+      placeholder: Critical scenarios pass end to end; defects are routed correctly; release recommendation or rejection is recorded.
+    validations:
+      required: true
+  - type: dropdown
+    id: project_status
+    attributes:
+      label: project_status
+      options:
+        - Inbox
+        - Ready
+        - In Progress
+        - Blocked
+        - Waiting for Testing
+        - Testing
+        - Waiting for Fix
+        - In Review
+        - Done
+    validations:
+      required: true

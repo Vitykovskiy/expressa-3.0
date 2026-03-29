@@ -1,0 +1,78 @@
+name: Deploy
+description: Create the deployment task for rolling validated outputs into a target environment.
+title: "[Deploy] "
+labels:
+  - "task_type: deploy"
+body:
+  - type: markdown
+    attributes:
+      value: |
+        This template creates the deployment task for a validated release slice.
+        The `task_type` is fixed by this template as `deploy`.
+  - type: dropdown
+    id: owner_contour
+    attributes:
+      label: owner_contour
+      options:
+        - devops
+    validations:
+      required: true
+  - type: input
+    id: parent_initiative
+    attributes:
+      label: parent_initiative
+      placeholder: "#123"
+    validations:
+      required: true
+  - type: textarea
+    id: canonical_inputs
+    attributes:
+      label: canonical_inputs
+      placeholder: build artifacts, environment notes, deployment checklist, linked implementation tasks
+    validations:
+      required: true
+  - type: textarea
+    id: depends_on
+    attributes:
+      label: depends_on
+      placeholder: "#456, #457"
+    validations:
+      required: true
+  - type: textarea
+    id: rollout_scope
+    attributes:
+      label: Rollout scope
+      description: Which target environment or release slice does this deploy cover?
+      placeholder: Describe the environment, release boundary, and rollout constraints.
+    validations:
+      required: true
+  - type: textarea
+    id: definition_of_ready
+    attributes:
+      label: definition_of_ready
+      placeholder: Required implementation tasks are done; deployment prerequisites and runtime requirements are documented.
+    validations:
+      required: true
+  - type: textarea
+    id: definition_of_done
+    attributes:
+      label: definition_of_done
+      placeholder: Rollout succeeds; evidence is recorded; downstream e2e work is unblocked.
+    validations:
+      required: true
+  - type: dropdown
+    id: project_status
+    attributes:
+      label: project_status
+      options:
+        - Inbox
+        - Ready
+        - In Progress
+        - Blocked
+        - Waiting for Testing
+        - Testing
+        - Waiting for Fix
+        - In Review
+        - Done
+    validations:
+      required: true

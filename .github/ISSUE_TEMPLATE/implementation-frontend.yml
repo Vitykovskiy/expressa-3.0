@@ -1,0 +1,133 @@
+name: Implementation - Frontend
+description: Implement one frontend screen or component from the approved UI/UX contract.
+title: "[Frontend] "
+labels:
+  - "task_type: implementation"
+  - "contour: frontend"
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Frontend implementation task. The UI/UX contract is the single source of truth for UI.
+        The `task_type` is fixed as `implementation`, contour as `frontend`.
+  - type: textarea
+    id: uiux_contract
+    attributes:
+      label: uiux_contract
+      description: Implementation-ready UI/UX contract for this screen or component. May cite direct Figma frames, Figma Make, screenshots, mockups, product references, or synthesized analysis. Direct Figma frames are optional, not required.
+      placeholder: |
+        Screen name - source type - source link or reference - covered states
+        Example: Cart screen - synthesized UI/UX contract - item list, totals, checkout CTA
+    validations:
+      required: true
+  - type: dropdown
+    id: model
+    attributes:
+      label: model
+      description: "Agent model for this task. from-config uses the value from .ai-dev-template.config.json"
+      options:
+        - from-config
+        - claude
+        - codex
+    validations:
+      required: true
+  - type: input
+    id: parent_initiative
+    attributes:
+      label: parent_initiative
+      placeholder: "#123"
+    validations:
+      required: true
+  - type: input
+    id: parent_block_task
+    attributes:
+      label: parent_block_task
+      placeholder: "#456"
+    validations:
+      required: true
+  - type: textarea
+    id: user_scenario
+    attributes:
+      label: user_scenario
+      description: Which user scenario does this screen or component serve?
+      placeholder: Describe the user flow and expected result.
+    validations:
+      required: true
+  - type: textarea
+    id: api_contract
+    attributes:
+      label: api_contract
+      description: API contract if this task depends on backend. Write `none` if no dependency.
+      placeholder: "endpoint, request schema, response schema - or `none`"
+    validations:
+      required: true
+  - type: textarea
+    id: canonical_inputs
+    attributes:
+      label: canonical_inputs
+      placeholder: uiux_contract link or summary, docs/analysis/ui-specification.md, API contract issue link
+    validations:
+      required: true
+  - type: textarea
+    id: depends_on
+    attributes:
+      label: depends_on
+      placeholder: "#789 or none"
+    validations:
+      required: true
+  - type: textarea
+    id: definition_of_ready
+    attributes:
+      label: definition_of_ready
+      description: All items must be checked before the task moves to Ready.
+      value: |
+        - [ ] uiux_contract is filled with a usable contract or explicit synthesis source
+        - [ ] user_scenario is described
+        - [ ] api_contract is filled or explicitly `none`
+        - [ ] all dependent tasks are closed
+    validations:
+      required: true
+  - type: textarea
+    id: definition_of_done
+    attributes:
+      label: definition_of_done
+      description: All items must be checked before the task can be closed.
+      value: |
+        - [ ] UI/UX contract and any referenced source reviewed before implementation started
+        - [ ] implementation matches the UI/UX contract
+        - [ ] screenshot taken and compared against the UI/UX contract or referenced source using the visual checklist:
+          - [ ] platform (mobile / desktop) matches
+          - [ ] background color and accent color match
+          - [ ] font family matches
+          - [ ] layout direction matches
+        - [ ] all checklist items pass; any mismatch documented as a comment before closing
+        - [ ] code committed and pushed
+    validations:
+      required: true
+  - type: dropdown
+    id: priority
+    attributes:
+      label: priority
+      description: "high = blocks other tasks; medium = independent implementation task; low = improvement not blocking progress"
+      options:
+        - medium
+        - high
+        - low
+    validations:
+      required: true
+  - type: dropdown
+    id: project_status
+    attributes:
+      label: project_status
+      options:
+        - Inbox
+        - Ready
+        - In Progress
+        - Blocked
+        - Waiting for Testing
+        - Testing
+        - Waiting for Fix
+        - In Review
+        - Done
+    validations:
+      required: true

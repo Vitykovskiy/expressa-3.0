@@ -1,0 +1,50 @@
+{
+  "config_version": 1,
+  "language": {
+    "documentation": "en",
+    "issues": "en",
+    "pull_requests": "en",
+    "comments": "en",
+    "commits": "en",
+    "labels": "en"
+  },
+  "workflow": {
+    "execution_mode": "autonomous",
+    "issue_tracking": "github_issues",
+    "project_tracking": "github_project"
+  },
+  "pull_requests": {
+    "enabled": true,
+    "creation_mode": "for_significant_tasks",
+    "review": {
+      "required": true,
+      "reviewers": "human",
+      "agent_must_read_comments": true,
+      "agent_must_reply_to_comments": true,
+      "agent_must_apply_accepted_feedback": true
+    },
+    "merge": {
+      "squash_commits": true,
+      "integration_method": "merge",
+      "min_approvals": 1,
+      "require_green_checks": true,
+      "allow_agent_self_merge": false
+    }
+  },
+  "project_map": {
+    "enabled": true
+  },
+  "github": {
+    "required_token_scopes": [
+      "repo",
+      "project"
+    ],
+    "recommended_token_scopes": [
+      "read:org",
+      "workflow"
+    ]
+  },
+  "architecture": {
+    "use_fsd": false
+  }
+}

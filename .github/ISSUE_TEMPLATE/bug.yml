@@ -1,0 +1,46 @@
+name: Bug
+description: Report a defect with observable impact.
+title: "[Bug] "
+labels:
+  - "type: bug"
+body:
+  - type: textarea
+    id: observed_behavior
+    attributes:
+      label: Observed behavior
+      description: What is happening now?
+      placeholder: Describe the current incorrect behavior.
+    validations:
+      required: true
+  - type: textarea
+    id: expected_behavior
+    attributes:
+      label: Expected behavior
+      description: What should happen instead?
+      placeholder: Describe the expected behavior.
+    validations:
+      required: true
+  - type: textarea
+    id: reproduction_steps
+    attributes:
+      label: Steps to reproduce
+      description: How can the issue be reproduced reliably?
+      placeholder: List reproduction steps.
+    validations:
+      required: true
+  - type: textarea
+    id: environment
+    attributes:
+      label: Environment
+      description: Which environment, version, or platform is affected?
+      placeholder: Describe the environment.
+    validations:
+      required: true
+  - type: textarea
+    id: impact
+    attributes:
+      label: Impact
+      description: What is the business or user impact?
+      placeholder: Describe severity and user impact.
+    validations:
+      required: true

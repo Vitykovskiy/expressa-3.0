@@ -1,0 +1,72 @@
+name: AI Review Gate
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+  pull_request_review:
+    types: [submitted]
+
+concurrency:
+  group: ai-review-gate-${{ github.event.pull_request.number }}
+  cancel-in-progress: true
+
+jobs:
+  ai-review-approved:
+    name: ai-review-approved
+    runs-on: ubuntu-latest
+    if: |
+      github.event_name == 'pull_request' ||
+      github.event.review.user.login == 'veni-vidi-review[bot]' ||
+      github.event.review.user.login == 'veni-vidi-review'
+    steps:
+      - name: Wait for AI review result
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          PR_NUMBER="${{ github.event.pull_request.number }}"
+          REPO="${{ github.repository }}"
+          HEAD_SHA="${{ github.event.pull_request.head.sha }}"
+
+          PR_STATE=$(gh api "repos/${REPO}/pulls/${PR_NUMBER}" --jq '.state')
+          if [ "$PR_STATE" != "open" ]; then
+            echo "PR is ${PR_STATE}, skipping gate."
+            exit 0
+          fi
+
+          echo "Polling AI review for PR #${PR_NUMBER} at head ${HEAD_SHA}..."
+
+          for i in $(seq 1 60); do
+            REVIEW_STATE=$(gh api "repos/${REPO}/pulls/${PR_NUMBER}/reviews" --jq '
+              [
+                .[]
+                | select(.user.login == "veni-vidi-review[bot]" or .user.login == "veni-vidi-review")
+                | select(.state == "APPROVED" or .state == "COMMENTED" or .state == "CHANGES_REQUESTED")
+              ]
+              | last
+              | .state // ""
+            ')
+
+            REVIEW_COMMIT=$(gh api "repos/${REPO}/pulls/${PR_NUMBER}/reviews" --jq '
+              [
+                .[]
+                | select(.user.login == "veni-vidi-review[bot]" or .user.login == "veni-vidi-review")
+                | select(.state == "APPROVED" or .state == "COMMENTED" or .state == "CHANGES_REQUESTED")
+              ]
+              | last
+              | .commit_id // ""
+            ')
+
+            if [ "$REVIEW_STATE" = "APPROVED" ] || [ "$REVIEW_STATE" = "COMMENTED" ]; then
+              echo "AI review: ${REVIEW_STATE}"
+              exit 0
+            elif [ "$REVIEW_STATE" = "CHANGES_REQUESTED" ] && [ "$REVIEW_COMMIT" = "$HEAD_SHA" ]; then
+              echo "AI review: CHANGES_REQUESTED"
+              exit 1
+            fi
+
+            echo "No relevant AI review yet. Attempt $i/60. Waiting 10s..."
+            sleep 10
+          done
+
+          echo "Timed out waiting for AI review (10 minutes)."
+          exit 1

@@ -1,0 +1,8 @@
+{
+  "session_id": "replace-with-uuid-or-timestamp",
+  "trace_id": "replace-with-trace-id",
+  "created_at_utc": "2026-03-29T00:00:00Z",
+  "agent_role": "orchestrator",
+  "session_mode": "execution",
+  "output_file": ".agent-work/telemetry/20260329-000000.jsonl"
+}

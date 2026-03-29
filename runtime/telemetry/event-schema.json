@@ -1,0 +1,107 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://ai-dev-template.local/runtime/telemetry/event-schema.json",
+  "title": "AI Dev Template Runtime Telemetry Event",
+  "type": "object",
+  "additionalProperties": true,
+  "required": [
+    "timestamp_utc",
+    "trace_id",
+    "event_type",
+    "agent_role",
+    "session_mode"
+  ],
+  "properties": {
+    "timestamp_utc": {
+      "type": "string",
+      "description": "UTC timestamp in RFC 3339 format."
+    },
+    "trace_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "span_id": {
+      "type": "string"
+    },
+    "parent_span_id": {
+      "type": "string"
+    },
+    "session_id": {
+      "type": "string"
+    },
+    "event_type": {
+      "type": "string",
+      "enum": [
+        "session_started",
+        "session_finished",
+        "task_selected",
+        "subagent_spawned",
+        "subagent_finished",
+        "tool_called",
+        "tool_finished",
+        "attempt_started",
+        "attempt_finished",
+        "attempt_failed",
+        "retry_scheduled",
+        "blocker_detected",
+        "workaround_applied",
+        "decision_recorded",
+        "handoff_written"
+      ]
+    },
+    "agent_role": {
+      "type": "string",
+      "minLength": 1
+    },
+    "session_mode": {
+      "type": "string",
+      "enum": [
+        "dialogue",
+        "execution",
+        "setup"
+      ]
+    },
+    "task_type": {
+      "type": "string"
+    },
+    "issue_id": {
+      "type": "string"
+    },
+    "operation": {
+      "type": "string"
+    },
+    "attempt": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "status": {
+      "type": "string"
+    },
+    "reason_code": {
+      "type": "string"
+    },
+    "message": {
+      "type": "string"
+    },
+    "duration_ms": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "inputs": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "outputs": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "metadata": {
+      "type": "object",
+      "additionalProperties": true
+    }
+  }
+}

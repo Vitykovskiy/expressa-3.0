@@ -1,0 +1,96 @@
+name: System Analysis
+description: Create the specification task that produces the canonical implementation-ready analysis package.
+title: "[System Analysis] "
+labels:
+  - "task_type: system_analysis"
+body:
+  - type: markdown
+    attributes:
+      value: |
+        This template is for the system-analysis issue that turns business intake into implementation-ready specifications.
+        The `task_type` is fixed by this template as `system_analysis`.
+  - type: dropdown
+    id: owner_contour
+    attributes:
+      label: owner_contour
+      options:
+        - system-analyst
+    validations:
+      required: true
+  - type: input
+    id: parent_initiative
+    attributes:
+      label: parent_initiative
+      placeholder: "#123"
+    validations:
+      required: true
+  - type: textarea
+    id: canonical_inputs
+    attributes:
+      label: canonical_inputs
+      description: Link the business-analysis outputs and any prerequisite artifacts.
+      placeholder: business_analysis issue, docs/analysis/* placeholders, upstream decisions
+    validations:
+      required: true
+  - type: textarea
+    id: depends_on
+    attributes:
+      label: depends_on
+      placeholder: "#124"
+    validations:
+      required: true
+  - type: textarea
+    id: uiux_contract
+    attributes:
+      label: uiux_contract
+      description: |
+        Required when the initiative includes UI. List each screen or user-facing flow with the implementation-ready UI/UX contract and its source(s).
+        Accept direct Figma frames, Figma Make, screenshots, mockups, product references, or a synthesized contract when the user confirmed no design reference exists.
+        If a direct frame exists, include it as one source; do not require it as the only source.
+        Format per line:
+        - source-backed: `Screen name - source type - source link or reference - covered states`
+        - synthesized: `Screen name - synthesized UI/UX contract - covered states`
+        Write `none` if no UI is involved.
+      placeholder: |
+        Home screen - Figma Make - https://www.figma.com/make/... - navigation, loading, empty, error states
+        Cart screen - synthesized UI/UX contract - item list, totals, checkout CTA
+    validations:
+      required: true
+  - type: textarea
+    id: decomposition_scope
+    attributes:
+      label: Decomposition scope
+      description: Which integrated blocks, contracts, or open questions must this task resolve?
+      placeholder: Describe the specification and decomposition boundary.
+    validations:
+      required: true
+  - type: textarea
+    id: definition_of_ready
+    attributes:
+      label: definition_of_ready
+      placeholder: Business-analysis outputs are complete or equivalent context exists; business blockers are closed.
+    validations:
+      required: true
+  - type: textarea
+    id: definition_of_done
+    attributes:
+      label: definition_of_done
+      placeholder: Canonical analysis package is ready; contour decomposition exists; required block_delivery and child tasks are published.
+    validations:
+      required: true
+  - type: dropdown
+    id: project_status
+    attributes:
+      label: project_status
+      options:
+        - Inbox
+        - Ready
+        - In Progress
+        - Blocked
+        - Waiting for Testing
+        - Testing
+        - Waiting for Fix
+        - In Review
+        - Done
+    validations:
+      required: true

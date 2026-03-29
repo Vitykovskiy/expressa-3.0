@@ -1,0 +1,30 @@
+name: Text Artifact Check
+
+on:
+  pull_request:
+    types: [opened, edited, synchronize, reopened]
+  push:
+    branches:
+      - main
+
+jobs:
+  text-artifact-check:
+    name: text-artifact-check
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Check text artifacts for common encoding corruption
+        run: |
+          if rg -P -n --glob '!text-artifact-check.yml' 'РІР‚|РІвЂќ|Гўв‚¬вЂќ|Гўв‚¬вЂњ|\x{FFFD}' \
+            AGENTS.md \
+            README.md \
+            docs \
+            templates \
+            .github/ISSUE_TEMPLATE \
+            .github/workflows; then
+            echo "Detected likely encoding corruption in text artifacts."
+            exit 1
+          fi
+
+          echo "No common encoding-corruption markers found."

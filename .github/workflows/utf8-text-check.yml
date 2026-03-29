@@ -1,0 +1,59 @@
+name: UTF-8 Text Check
+
+on:
+  pull_request:
+    paths:
+      - "**/*.md"
+      - "**/*.yml"
+      - "**/*.yaml"
+      - "**/*.json"
+  push:
+    paths:
+      - "**/*.md"
+      - "**/*.yml"
+      - "**/*.yaml"
+      - "**/*.json"
+
+jobs:
+  utf8-text-check:
+    name: utf8-text-check
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Validate text files are UTF-8 and free of replacement characters
+        run: |
+          python3 <<'PY'
+          from pathlib import Path
+
+          patterns = ("*.md", "*.yml", "*.yaml", "*.json")
+          files = sorted(
+              {
+                  path
+                  for pattern in patterns
+                  for path in Path(".").rglob(pattern)
+                  if ".git/" not in path.as_posix()
+              }
+          )
+
+          failures = []
+
+          for path in files:
+              try:
+                  data = path.read_bytes()
+                  text = data.decode("utf-8")
+              except UnicodeDecodeError as exc:
+                  failures.append(f"{path}: invalid UTF-8 ({exc})")
+                  continue
+
+              if "\uFFFD" in text:
+                  failures.append(f"{path}: contains replacement character U+FFFD")
+
+          if failures:
+              print("UTF-8 validation failed:")
+              for failure in failures:
+                  print(f" - {failure}")
+              raise SystemExit(1)
+
+          print(f"Validated {len(files)} text files.")
+          PY

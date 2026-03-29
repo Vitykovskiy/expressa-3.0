@@ -1,0 +1,86 @@
+name: Initiative
+description: Create the top-level outcome that anchors an issue-driven delivery stream.
+title: "[Initiative] "
+labels:
+  - "task_type: initiative"
+body:
+  - type: markdown
+    attributes:
+      value: |
+        This template defines the top-level delivery anchor for one outcome.
+        The `task_type` is fixed by this template as `initiative`.
+  - type: dropdown
+    id: owner_contour
+    attributes:
+      label: owner_contour
+      description: Primary owner contour for this initiative.
+      options:
+        - business-analyst
+        - system-analyst
+    validations:
+      required: true
+  - type: textarea
+    id: goal
+    attributes:
+      label: Goal
+      description: What outcome should exist when this initiative is done?
+      placeholder: Describe the strategic outcome.
+    validations:
+      required: true
+  - type: textarea
+    id: parent_initiative
+    attributes:
+      label: parent_initiative
+      description: Initiatives are top-level. Record `none` unless this is explicitly nested by repository policy.
+      placeholder: none
+    validations:
+      required: true
+  - type: textarea
+    id: depends_on
+    attributes:
+      label: depends_on
+      description: List blocking tasks explicitly or write `none`.
+      placeholder: none
+    validations:
+      required: true
+  - type: textarea
+    id: canonical_inputs
+    attributes:
+      label: canonical_inputs
+      description: Link the request, source documents, or prerequisite artifacts.
+      placeholder: docs/01-product-vision.md, stakeholder request, issue links
+    validations:
+      required: true
+  - type: textarea
+    id: definition_of_ready
+    attributes:
+      label: definition_of_ready
+      description: Preconditions for starting this initiative.
+      placeholder: Setup complete; request identified; no higher-level initiative covers the same outcome.
+    validations:
+      required: true
+  - type: textarea
+    id: definition_of_done
+    attributes:
+      label: definition_of_done
+      description: Evidence required to close this initiative.
+      placeholder: Child tasks created; dependencies recorded; GitHub Project reflects the execution chain.
+    validations:
+      required: true
+  - type: dropdown
+    id: project_status
+    attributes:
+      label: project_status
+      description: Initial GitHub Project state for this issue.
+      options:
+        - Inbox
+        - Ready
+        - In Progress
+        - Blocked
+        - Waiting for Testing
+        - Testing
+        - Waiting for Fix
+        - In Review
+        - Done
+    validations:
+      required: true

@@ -1,0 +1,32 @@
+name: PR Title Check
+
+on:
+  pull_request:
+    types: [opened, edited, synchronize, reopened]
+
+jobs:
+  pr-title-check:
+    name: pr-title-check
+    runs-on: ubuntu-latest
+    steps:
+      - name: Validate PR title format
+        run: |
+          PR_TITLE=$(jq -r '.pull_request.title // ""' "$GITHUB_EVENT_PATH")
+          PATTERN='^(feat|fix|docs|style|refactor|perf|test|build|ci|chore|revert)(\([A-Za-z0-9._/-]+\))?(!)?: .+$'
+
+          if [ -z "$PR_TITLE" ]; then
+            echo "PR title is empty."
+            exit 1
+          fi
+
+          if ! [[ "$PR_TITLE" =~ $PATTERN ]]; then
+            echo "PR title does not match the required format."
+            echo "Expected: <type>(<scope>): <summary>"
+            echo "Allowed types: feat, fix, docs, style, refactor, perf, test, build, ci, chore, revert"
+            echo "Examples:"
+            echo "  feat(auth): add GitHub SSO for admins"
+            echo "  fix: prevent duplicate webhook delivery processing"
+            exit 1
+          fi
+
+          echo "PR title format is valid."

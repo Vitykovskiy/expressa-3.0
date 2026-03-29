@@ -1,0 +1,26 @@
+# Task Start Checklist
+
+- Task issue:
+- Task type:
+- Owning role:
+- Owner contour matches the task:
+- Parent initiative:
+- Parent block task:
+- Goal:
+- Current project status:
+- Claim path used (`In Progress` already / `Ready -> In Progress`):
+- Re-read issue and project state after claim:
+- Issue still safe to claim after re-read:
+- Non-claimable control state not treated as backlog pickup:
+- Dependencies closed:
+- Canonical inputs read:
+- Sibling contours intentionally not read:
+- Delivery mode:
+- PR required:
+- Branch:
+- Git state synced before work started:
+- Branch synced with latest parent branch:
+- Latest remote parent branch verified:
+- Definition of ready confirmed:
+- Analysis sufficiency confirmed:
+- Stop conditions checked:

@@ -1,0 +1,117 @@
+name: Implementation – Backend
+description: Implement one backend endpoint or isolated service unit.
+title: "[Backend] "
+labels:
+  - "task_type: implementation"
+  - "contour: backend"
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Backend implementation task.
+        The `task_type` is fixed as `implementation`, contour as `backend`.
+  - type: dropdown
+    id: model
+    attributes:
+      label: model
+      description: "Agent model for this task. from-config uses the value from .ai-dev-template.config.json"
+      options:
+        - from-config
+        - claude
+        - codex
+    validations:
+      required: true
+  - type: input
+    id: parent_initiative
+    attributes:
+      label: parent_initiative
+      placeholder: "#123"
+    validations:
+      required: true
+  - type: input
+    id: parent_block_task
+    attributes:
+      label: parent_block_task
+      placeholder: "#456"
+    validations:
+      required: true
+  - type: textarea
+    id: api_contract
+    attributes:
+      label: api_contract
+      description: "API contract — endpoint, request schema, response schema."
+      placeholder: "POST /api/orders — request: { item_id, quantity } — response: { order_id, status }"
+    validations:
+      required: true
+  - type: textarea
+    id: business_logic
+    attributes:
+      label: business_logic
+      description: Business rules and constraints this task must implement.
+      placeholder: Describe invariants, validations, and side effects.
+    validations:
+      required: true
+  - type: textarea
+    id: canonical_inputs
+    attributes:
+      label: canonical_inputs
+      placeholder: docs/analysis/domain-model.md, docs/analysis/integration-contracts.md
+    validations:
+      required: true
+  - type: textarea
+    id: depends_on
+    attributes:
+      label: depends_on
+      placeholder: "#789 or none"
+    validations:
+      required: true
+  - type: textarea
+    id: definition_of_ready
+    attributes:
+      label: definition_of_ready
+      description: All items must be checked before the task moves to Ready.
+      value: |
+        - [ ] api_contract is filled (endpoint, request schema, response schema)
+        - [ ] business_logic is described
+        - [ ] all dependent tasks are closed
+    validations:
+      required: true
+  - type: textarea
+    id: definition_of_done
+    attributes:
+      label: definition_of_done
+      description: All items must be checked before the task can be closed.
+      value: |
+        - [ ] endpoint behavior matches api_contract
+        - [ ] business logic rules are enforced and covered by tests
+        - [ ] error paths are handled explicitly
+        - [ ] code committed and pushed
+    validations:
+      required: true
+  - type: dropdown
+    id: priority
+    attributes:
+      label: priority
+      description: "high = blocks other tasks; medium = independent implementation task; low = improvement not blocking progress"
+      options:
+        - medium
+        - high
+        - low
+    validations:
+      required: true
+  - type: dropdown
+    id: project_status
+    attributes:
+      label: project_status
+      options:
+        - Inbox
+        - Ready
+        - In Progress
+        - Blocked
+        - Waiting for Testing
+        - Testing
+        - Waiting for Fix
+        - In Review
+        - Done
+    validations:
+      required: true
