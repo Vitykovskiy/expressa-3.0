@@ -1,29 +1,44 @@
 # Scope And Boundaries
 
-This document captures intake-level version boundaries and feeds the analysis package.
+Этот документ фиксирует intake-level границы версии и подает их в analysis package.
 
-## In Scope
+## В Scope
 
-- `<capability or outcome included in the project>`
-- `<capability or outcome included in the first delivery wave>`
+- Telegram-центричный customer flow для оформления заказа на выдачу.
+- Customer web-interface, открываемый из Telegram.
+- Единый backoffice для `barista` и `administrator`.
+- Отдельный Telegram-бот для входа в backoffice.
+- Блокировка пользователей administrator-ом.
+- Каталог с размерами, допами, бесплатными и взаимоисключающими опциями.
+- Слоты текущего дня.
+- История заказов.
+- Напоминания barista.
+- Аудит ключевых действий barista.
+- Документация проекта как канонический источник правды.
 
-## Out Of Scope
+## Не В Scope
 
-- `<explicitly excluded capability>`
-- `<explicitly excluded integration>`
+- Внутренняя оплата и онлайн-платежи.
+- Акции, скидки, бонусные механики и купоны.
+- Горизонт слотов более одного дня.
+- Свободные модификаторы вне явно заданной модели допов.
+- Расширенная отчетность и аналитические панели.
+- Продвинутые ограничения по остаткам сверх простой доступности товаров.
 
-## First Version Constraints
+## Ограничения Первой Версии
 
-- Timeline constraints:
-- Budget constraints:
-- Team constraints:
-- Data or integration constraints:
+- Timeline constraints: v1 должна покрывать MVP без разрастания в аналитику и маркетинговые механики.
+- Budget constraints: бюджет не предполагает расширение на extra payment stack в первой версии.
+- Team constraints: работа ведется через issue-driven workflow с одним owner contour на задачу.
+- Data or integration constraints: Telegram обязателен как канал доступа; test environment на VPS должен поддерживать БД, frontend и backend.
 
 ## Deferred Scope
 
-- `<idea deferred to later release>`
-- `<nice-to-have item not committed for v1>`
+- Онлайн-оплата.
+- Скидки, акции и купоны.
+- Расширенная отчетность и аналитика.
+- Многодневное планирование слотов.
 
 ## Boundary Notes
 
-Use this file to stop scope drift during intake. Analysis should convert these boundaries into delivery-ready scope and acceptance artifacts.
+Граница v1 намеренно ограничена заказом на выдачу, базовым backoffice и операционным управлением меню, слотами и доступами. Все, что требует отдельной продуктовой линии, должно быть вынесено в последующий analysis slice.

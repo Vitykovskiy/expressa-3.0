@@ -1,27 +1,40 @@
 # Version Scope And Acceptance
 
-## Version Boundary
+## Граница версии
 
-### In Scope
+### В Scope
 
-- `<item>`
-- `<item>`
+- Telegram-центричный customer flow для заказа на выдачу.
+- Customer web-interface внутри Telegram.
+- Единый backoffice для `barista` и `administrator`.
+- Отдельный Telegram-бот для доступа в backoffice.
+- Каталог с размерами напитков, группами допов, бесплатными допами и взаимоисключающими опциями.
+- Слоты только на текущий день с шагом 10 минут.
+- История заказов и Telegram-уведомления о смене статусов.
+- Управление меню, ценами, рабочими часами, лимитами слотов, назначением barista и блокировкой пользователей.
 
-### Out Of Scope
+### Вне Scope
 
-- `<item>`
-- `<item>`
+- Онлайн-оплата.
+- Акции, скидки, бонусные механики и купоны.
+- Многодневный горизонт слотов.
+- Продвинутая аналитика и отчетные панели.
+- Свободные модификаторы вне фиксированной модели допов.
 
-## Acceptance Criteria
+## Критерии приемки
 
-| Criterion | Source scenario | How to validate |
+| Критерий | Source scenario | How to validate |
 | --- | --- | --- |
-| `<criterion>` | `<scenario>` | `<validation>` |
+| Customer может просмотреть меню, настроить товар, добавить его в корзину и создать заказ | Customer flow | Пройти путь menu -> product configuration -> cart -> slot selection -> order creation |
+| Barista может подтвердить, отклонить, перевести в ready for pickup и закрыть заказ | Barista flow | Пройти путь queue -> confirm/reject -> ready -> close |
+| Administrator может управлять меню, слотами, рабочими часами и блокировкой пользователей | Administrator flow | Проверить операционные экраны backoffice |
+| Telegram-уведомления отражают смену статусов заказа | Status notification flow | Проверить сообщения при смене статуса и при rejected-ответе |
+| Система сохраняет, какой barista обработал заказ | Operational audit flow | Проверить audit trail в истории заказа |
 
 ## Release Gate
 
-The initiative may be closed only after:
+Инициатива может быть закрыта только после того, как:
 
-1. contour development is complete;
-2. deployment succeeds;
-3. e2e validation passes.
+1. contour development для релизного slice завершена;
+2. rollout или deployment успешно выполнен, если он требуется;
+3. e2e validation по согласованным сценариям прошла успешно.

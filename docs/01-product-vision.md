@@ -1,40 +1,47 @@
 # Product Vision
 
-This document captures intake-level product context. It is an input to `analysis`, not an implementation specification.
+Этот документ фиксирует интаковый продуктовый контекст. Он служит входом для `analysis`, а не спецификацией реализации.
 
-## Problem
+## Проблема
 
-Describe the core user or business problem. Do not start from a solution. Summarize the pain, inefficiency, revenue gap, or operational risk that motivates the project.
+Expressa v1 решает задачу быстрого оформления заказа на выдачу в кафетерии через Telegram и одновременного управления операциями в backoffice без лишних переходов между каналами.
 
-## Value Proposition
+Проблема продукта состоит в том, что клиенту нужен короткий мобильный путь от меню до заказа, а barista и administrator нужен предсказуемый инструмент для обработки заказов, управления меню и контроля доступа.
 
-State the business value created if the problem is solved.
+## Ценность
 
-- Primary business outcome:
-- Secondary business outcome:
-- Why now:
+Ключевая ценность продукта:
 
-## Target Users
+- клиент быстрее оформляет заказ и получает его без очереди и лишних действий;
+- бариста и administrator работают в одном backoffice и не теряют управление заказами, доступностью и ролями;
+- документация и workflow остаются самодостаточными и позволяют продолжать работу без скрытого контекста.
 
-- Primary users:
-- Secondary users:
-- Internal stakeholders:
+## Целевые пользователи
 
-## High-Level Use Cases
+- `customer`: оформляет заказ через Telegram-центричный сценарий.
+- `barista`: подтверждает, отклоняет и переводит заказы по жизненному циклу.
+- `administrator`: управляет меню, ценами, рабочими часами, слотами и доступом пользователей.
 
-1. `<use case 1>`
-2. `<use case 2>`
-3. `<use case 3>`
+## Высокоуровневые сценарии
 
-## Constraints
+1. Customer открывает Telegram-бота, выбирает товар, настраивает его, добавляет в корзину, выбирает слот и создает заказ.
+2. Barista открывает backoffice через отдельный Telegram-бот, просматривает новые заказы, подтверждает их, переводит в готовность и закрывает после выдачи.
+3. Administrator работает в том же backoffice и управляет каталогом, слотами, рабочими часами, назначением barista и блокировкой пользователей.
 
-- Budget:
-- Timeline:
-- Compliance or regulatory constraints:
-- Technical or operational constraints:
+## Ограничения
 
-## Success Criteria
+- Telegram обязателен как основной канал доступа.
+- В v1 нет встроенной оплаты: оплата происходит офлайн при получении.
+- Слоты доступны только в пределах текущего дня.
+- Шаг слота составляет 10 минут.
+- Дефолтная вместимость слота составляет 5 активных заказов.
+- Backend строится на NestJS.
+- Frontend строится на Vue 3 и Vuetify.
+- Решение организовано как монорепозиторий.
 
-- Quantitative success signal:
-- Qualitative success signal:
-- Review cadence:
+## Критерии успеха
+
+- Customer, barista и administrator могут пройти свои MVP-сценарии end-to-end.
+- Слоты и модель меню поддерживают размеры, допы, бесплатные допы и взаимоисключающие опции.
+- Система фиксирует, какой barista подтвердил, приготовил или отклонил заказ.
+- Документация достаточна для продолжения работы без скрытого контекста.
