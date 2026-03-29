@@ -34,8 +34,8 @@ If you need to diagnose execution friction, consult `docs/12-observability.md` f
 - Session mode: `execution`
 - Active initiative: `#1`
 - Active execution issues: `none`
-- Current owner role: `devops`
-- Delivery status: `infrastructure_ready`
+- Current owner role: `none`
+- Delivery status: `implementation_unblocked`
 
 ## Canonical Artifact Map
 
@@ -90,4 +90,5 @@ If you need to diagnose execution friction, consult `docs/12-observability.md` f
 ## Notes
 
 Keep this file concise. It should orient a new session without duplicating the detailed stage artifacts.
-The next eligible issue after `system_analysis` completion is `#4` (`infrastructure`, `Ready`).
+Stage 0 infrastructure is complete and staging baseline is live at `http://216.57.105.133:8080`.
+The next eligible issues after infrastructure completion should be implementation issues whose dependency is only `#4`, with priority order led by `#8`, then `#7`, then `#10`.

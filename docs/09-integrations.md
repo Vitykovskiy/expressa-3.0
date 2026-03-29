@@ -44,15 +44,21 @@ These variables are produced or published by DevOps after Stage 0. They are not 
 
 | Variable | Required | Purpose | Stage first needed | Status |
 | --- | --- | --- | --- | --- |
-| `TARGET_URL` | no | Published target environment URL | `deploy/e2e` | Unknown |
-| `TARGET_LOGIN` | no | Authenticated access for validation or operations | `deploy/e2e` | Unknown |
-| `TARGET_PASSWORD` | no | Authenticated access for validation or operations | `deploy/e2e` | Unknown |
+| `TARGET_URL` | yes | Published target environment URL | `infrastructure` | `http://216.57.105.133:8080` |
+| `TARGET_LOGIN` | no | Authenticated access for validation or operations | `deploy/e2e` | not required for Stage 0 |
+| `TARGET_PASSWORD` | no | Authenticated access for validation or operations | `deploy/e2e` | not required for Stage 0 |
 
 ## Tokens And Secrets
 
 | Secret | Where It Lives | Purpose | Stage first needed | Status |
 | --- | --- | --- | --- | --- |
-| `gh` auth token | GitHub CLI auth store | Issues and Project automation | `setup` | Unknown |
+| `gh` auth token | GitHub CLI auth store | Issues and Project automation | `setup` | configured |
+| `VPS_HOST`, `VPS_USER`, `VPS_PORT`, `VPS_SSH_PRIVATE_KEY` | GitHub Secrets | Staging autodeploy over SSH | `infrastructure` | configured |
+| `STAGING_POSTGRES_DB`, `STAGING_POSTGRES_USER`, `STAGING_POSTGRES_PASSWORD` | GitHub Secrets | Stage 0 runtime database contract | `infrastructure` | configured |
+| `STAGING_SESSION_SECRET` | GitHub Secrets | Placeholder backend session secret for bootstrap runtime | `infrastructure` | configured |
+| `STAGING_DISABLE_TG_AUTH` | GitHub Secrets | Allows test env to bypass Telegram auth until product implementation is ready | `infrastructure` | configured as `true` |
+| `STAGING_ADMIN_TELEGRAM_ID`, `STAGING_CUSTOMER_BOT_TOKEN`, `STAGING_BACKOFFICE_BOT_TOKEN` | GitHub Secrets | Placeholder Telegram contract for staging bootstrap | `infrastructure` | configured with bootstrap placeholders |
+| `TARGET_URL` | GitHub Secrets | Public URL used by deploy/e2e validation workflow | `infrastructure` | configured |
 
 ## GitHub Token Scope Baseline
 
@@ -82,14 +88,14 @@ Document every external system that matters to development, deploy, or e2e valid
 | `Telegram WebApp / Bot API` | Identity context, customer notifications, barista reminders | `system_analysis` | Required | Prod flow depends on Telegram; test env may use `DISABLE_TG_AUTH=true` |
 | `Figma Make Customer` | UI reference source for customer surface | `system_analysis` | Read-only source confirmed | File key `8AVVTDwJgQ2vFG8ZbQ6RV0`, used for screen inventory and UI traceability |
 | `Figma Make Admin` | UI reference source for backoffice surface | `system_analysis` | Read-only source confirmed | File key `pRTdx3oouQIEwmXDTtM0zT`, used for screen inventory and UI traceability |
-| `VPS` | Test/prod deployment target with containers and CI/CD automation | `infrastructure` | Access configured locally | Raw access variables live in local `.env` and are not committed |
+| `VPS` | Test/prod deployment target with containers and CI/CD automation | `infrastructure` | Staging baseline deployed | Raw access variables live in local `.env`, GitHub Actions uses SSH key auth, live bootstrap URL is `http://216.57.105.133:8080` |
 
 ## Integration Status
 
 - GitHub repository access: `yes`
 - GitHub Project access: `yes`
-- Deployment environment access: `Unknown`
-- E2E environment readiness: `Unknown`
+- Deployment environment access: `yes`
+- E2E environment readiness: `yes`
 
 ## Runbook References
 
@@ -104,3 +110,9 @@ Document every external system that matters to development, deploy, or e2e valid
 - Keep the runbook documents in `docs/runbooks/` aligned with the actual deployment and test environments.
 - Do not store production secrets in committed files.
 - If the project uses a separate secret manager, document the reference location here.
+- Stage 0 infrastructure evidence:
+  - GitHub Actions `Stage 0 CI`: `https://github.com/Vitykovskiy/expressa-3.0/actions/runs/23718709401`
+  - GitHub Actions `Deploy Staging`: `https://github.com/Vitykovskiy/expressa-3.0/actions/runs/23718726540`
+  - VPS compose status verified on commit `fd4ea918857cd3c10427a438ca8b387283dc4872`
+  - Public checks verified: `/health`, `/api/health`, `/api/meta`
+- VPS port `80` is already occupied by an unrelated Caddy process, so Expressa staging intentionally publishes on `:8080` during Stage 0.
