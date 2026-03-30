@@ -17,7 +17,6 @@
     "enabled": false,
     "review": {
       "required": false,
-      "reviewers": "human",
       "agent_must_read_comments": false,
       "agent_must_reply_to_comments": false,
       "agent_must_apply_accepted_feedback": false
