@@ -17,8 +17,11 @@ wait_for_url() {
 
 wait_for_url "${TARGET_URL}/health"
 
-echo "E2E: landing page"
-curl -fsS "${TARGET_URL}/" | grep -q "Expressa Stage 0"
+echo "E2E: customer surface"
+curl -fsS "${TARGET_URL}/" | grep -q "Expressa Customer"
+
+echo "E2E: backoffice surface"
+curl -fsS "${TARGET_URL}/backoffice/" | grep -q "Expressa Backoffice"
 
 echo "E2E: proxied API health"
 curl -fsS "${TARGET_URL}/api/health" | grep -q '"status": "ok"'
@@ -26,4 +29,10 @@ curl -fsS "${TARGET_URL}/api/health" | grep -q '"status": "ok"'
 echo "E2E: metadata contract"
 curl -fsS "${TARGET_URL}/api/meta" | grep -q '"telegramAuthDisabled": true'
 
-echo "Stage 0 e2e checks passed."
+echo "E2E: customer session contract"
+curl -fsS "${TARGET_URL}/api/customer/session" | grep -q '"userId":'
+
+echo "E2E: backoffice session contract"
+curl -fsS "${TARGET_URL}/api/backoffice/session" | grep -q '"allowedTabs":'
+
+echo "Staging e2e checks passed."

@@ -26,6 +26,10 @@
 - Health checks:
   - `curl -fsS http://127.0.0.1:8080/health`
   - `curl -fsS http://127.0.0.1:8080/api/health`
+  - `curl -fsS http://127.0.0.1:8080/ | grep 'Expressa Customer'`
+  - `curl -fsS http://127.0.0.1:8080/backoffice/ | grep 'Expressa Backoffice'`
+  - `curl -fsS http://127.0.0.1:8080/api/customer/session`
+  - `curl -fsS http://127.0.0.1:8080/api/backoffice/session`
   - `docker compose -f infra/staging/docker-compose.yml --env-file infra/staging/.env.runtime ps`
 - Smoke checks:
   - `bash scripts/infra/smoke.sh http://127.0.0.1:8080 http://127.0.0.1:8081`
