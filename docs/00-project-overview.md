@@ -35,7 +35,7 @@ If you need to diagnose execution friction, consult `docs/12-observability.md` f
 - Active initiative: `#1`
 - Active execution issues: `none`
 - Current owner role: `none`
-- Delivery status: `implementation_unblocked`
+- Delivery status: `waiting_for_testing_handoff`
 
 ## Canonical Artifact Map
 
@@ -91,4 +91,5 @@ If you need to diagnose execution friction, consult `docs/12-observability.md` f
 
 Keep this file concise. It should orient a new session without duplicating the detailed stage artifacts.
 Stage 0 infrastructure is complete and staging baseline is live at `http://216.57.105.133:8080`.
-The next eligible issues after infrastructure completion should be implementation issues whose dependency is only `#4`, with priority order led by `#8`, then `#7`, then `#10`.
+The current QA-eligible issues are `#9` and `#12` after their parent blocks move to `Waiting for Testing` and their dependencies remain closed.
+
